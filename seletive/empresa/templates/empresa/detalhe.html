@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'title' %}{{ empresa.nome }}{% endblock 'title' %}
+{% block 'head' %}
+    <link href="{% static 'company/css/detail_company.css' %}" rel="stylesheet">
+{% endblock%}
+
+
+{% block 'body' %}
+    <br>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <br>
+                <section class="alert {{message.tags}}">
+                    {{message}}
+                </section>
+            {% endfor %}
+        {% endif %}    
+        <div class="row">
+            <div class="col-md-3">
+                <img width="100%" src="{{empresa.logo.url}}">
+            </div>
+
+            <div class="col-md">
+                <h1 class="titulo">{{empresa.nome}}</h1>
+                <p class="paragrafo">{{empresa.endereco}}</p>
+            </div>
+
+
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Nicho de mercado:</label>
+                <input disabled type="text" class="form-control" value="{{ empresa.nicho_mercado }}">
+            </div>
+
+            <div class="col-md-3">
+                <label>Tecnologias usadas:</label>
+                <select class="form-select">   
+                       {% for tec in empresa.tecnologias.all %}
+                       <option value="{{ tec.id }}">{{ tec }}</option>
+                       {% endfor %}
+                </select>
+                
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-7">
+                <label>Características da empresa:</label>
+                <textarea disabled class="form-control">{{ empresa.caracteristicas }}</textarea>
+            </div>
+
+            <div class="col-md-3">
+                
+                
+            </div>
+        </div>
+
+        <hr>
+
+        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-lg btn-orange">Nova vaga</a>
+
+        <div class="row">
+            {% for emprego in empresa.emprego_set.all %}
+            <div class="col-md">
+
+            <div class="box-vagas">
+                <div class="header-vagas">
+                    <a href="{% url 'emprego:detalhe' emprego.id %}">{{emprego.titulo}}</a>
+                </div>
+
+                <div class="body-vagas">
+                    <div class="row">
+                        <div class="col-md">
+                            <label class="paragrafo">Nível:</label>
+                            <br>        
+                            <label class="paragrafo paragrafo-orange">{{emprego.get_level_experiencia_display}}</label>
+                        </div>
+
+                        <div class="col-md">
+                            <label class="paragrafo">Status:</label>
+                            <br>        
+                            <label class="paragrafo paragrafo-orange">{{emprego.get_status_display}}</label>                           
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+                
+            </div>
+        {% endfor %}
+        </div>
+
+    </div>
+    <br>
+    <br>
+    {% include 'emprego/registro.html' %}
+{% endblock %}
