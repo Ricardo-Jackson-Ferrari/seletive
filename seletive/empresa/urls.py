@@ -5,8 +5,8 @@ from . import views
 app_name = 'empresa'
 
 urlpatterns = [
-    path('', views.listing, name='listagem'),
-    path('nova_empresa/', views.register, name='registro'),
-    path('excluir_empresa/<int:id>', views.delete, name='excluir'),
-    path('<int:id>', views.detail, name='detalhe'),
+    path('', views.listagem, name='listagem'),
+    path('nova_empresa/', views.registro, name='registro'),
+    path('excluir_empresa/<int:id>', views.excluir, name='excluir'),
+    path('<int:id>', views.detalhe, name='detalhe'),
 ]

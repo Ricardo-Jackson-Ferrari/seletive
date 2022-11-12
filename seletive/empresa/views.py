@@ -16,7 +16,7 @@ from .facade import (
 )
 
 
-def register(request):
+def registro(request):
     if request.method == 'GET':
         ctx = {}
         ctx['title'] = 'Cadastro empresa'
@@ -34,7 +34,6 @@ def register(request):
         data['caracteristicas'] = request.POST.get('caracteristicas').strip()
         data['tecnologias'] = request.POST.getlist('tecnologias')
         data['logo'] = request.FILES.get('logo')
-
         errors = []
 
         if (
@@ -46,7 +45,8 @@ def register(request):
             or len(data['caracteristicas']) == 0
             or (not data['logo'])
         ):
-            errors.append('Preencha todos os campos')
+            messages.error(request, 'Preencha todos os campos')
+            return redirect('empresa:registro')
 
         file_size_limit = 10 * 1024 * 1024
 
@@ -57,16 +57,16 @@ def register(request):
             for error in errors:
                 messages.error(request, error)
 
-            return redirect(reverse_lazy('empresa:registro'))
+            return redirect('empresa:registro')
 
         registra_empresa(**data)
 
         messages.success(request, 'Empresa cadastrada com sucesso')
 
-        return redirect(reverse_lazy('empresa:registro'))
+        return redirect('empresa:registro')
 
 
-def listing(request):
+def listagem(request):
     ctx = {}
     ctx['title'] = 'empresas'
     ctx['empresas'] = get_empresas()
@@ -84,13 +84,13 @@ def listing(request):
     return render(request, 'empresa/listagem.html', ctx)
 
 
-def delete(request, id):
+def excluir(request, id):
     excluir_empresa(id)
     messages.success(request, 'empresa excluída com sucesso')
-    return redirect(reverse_lazy('empresa:listagem'))
+    return redirect('empresa:listagem')
 
 
-def detail(request, id):
+def detalhe(request, id):
     ctx = {}
     ctx['title'] = 'empresa | '
 
