@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 
 from seletive.emprego.facade import get_experiencias, get_status
 
