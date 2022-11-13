@@ -28,7 +28,7 @@ def only_method_post(view):
 
 def registro(request):
     if request.method == 'POST':
-        data: dict
+        data = {}
         data['empresa'] = request.POST.get('empresa')
         data['email'] = request.POST.get('email')
         data['titulo'] = request.POST.get('titulo')
